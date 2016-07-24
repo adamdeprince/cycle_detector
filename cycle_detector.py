@@ -94,12 +94,12 @@ def _convert_f_to_seqs(n, variable=False):
                 f = _remove_kwargs_from_args('f', seqs, kwargs)
                 start = _remove_kwargs_from_args('start', seqs, kwargs)
                 m = _remove_kwargs_from_args('m', seqs, kwargs)
-                key = _remove_kwargs_from_args(
-                    'key', seqs, kwargs) or (lambda x: x)
+            key = _remove_kwargs_from_args(
+                'key', seqs, kwargs) or (lambda x: x)
 
             for kwarg in kwargs:
                 raise TypeError(
-                    "a() got an unexpected keyword argument %r" % (kwarg,))
+                    "%s() got an unexpected keyword argument %r" % (f.func_name, kwarg,))
 
             if seqs:
                 if f is not None:

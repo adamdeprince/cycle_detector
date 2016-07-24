@@ -24,7 +24,7 @@ class PyTest(TestCommand):
 
 setup(
     name='cycle_detector',
-    version='0.0.3',
+    version='0.0.4',
     description="Cycle detectors",
     long_description='',
     url='https://github.com/pelotoncycle/cycle_detector',
