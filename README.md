@@ -154,30 +154,15 @@ none of these cycle detectors will ever stop.
     start -> SomeObject<1> -> SomeObject<1> -> done 
 ```
 
-It doens't work because your first `1` isn't really equal to your
-second `1`; a function `f(x)` that can do this is hiding state
-someplace.  A real finite state autonoma will consume its entire state
-and emit its entire state with eac invokation of f.  What your code is
-really doing is this:
+It doens't work because your first `SomeObject<1>` isn't really equal to your
+second `SomObject<1>`; a function `f(x)` that can do this is hiding state
+someplace.  Your objects have to support `__eq__` and `__hash__` properly, or 
+you have to fully expose your object state via a `key` method or rewriting the 
+object to something like this:
 
 ```
-    start -> (1, 0) -> (1, 1) -> done
+    start -> (1, SomeObject<0>) -> (1, SomeObject<1>) -> done
 ```
-
-You have to expose the full state for the cycle detector to work
-correctly.
-
-
-# Your code doesn't detect a cycle in lambda x: x + 1
-
-
-`f = lambda x: x+1, start=0`
-
-Python integers support arbitrary precision arithmetic; they are an
-infinite set subject to the limits of your systems memory.  If you
-really want to make this work, consider using `0.0` as your start
-value.  You'll run of precision and enter a cycle after about 2**53
-steps.
 
 
 
