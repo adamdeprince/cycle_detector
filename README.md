@@ -8,7 +8,7 @@ What's a cycle
 
 Imagine you have a function F(x) that accepts a single value x from a
 finite set of possiable values, returns a single value in the same
-finite set of possiable values and maitnains no state between calls.
+finite set of possiable values and maintains no state between calls.
 If you called one of the states `"done"` and wrote this bit of code:
 
 
@@ -104,21 +104,20 @@ Cycle Detectors compared
 
 
 
-name    |  Time           |  Memory    |  Streams  |  Can find λ  | Can find  μ
-------- | --------------- | ---------- | --------- | ------------ | ------------
-niave   | O(λ+μ)          | O(λ+μ)     | 1         | Yes          | Yes
-gospher | O((λ+μ)lg(λ+μ)) | O(lg(λ+μ)) | 1         | Yes          | No
-floyd   | O(λ+μ)          | O(1)       | 2         | Only with F  | Only with F
-brent   | O(λ+μ)          | O(1)       | 2         | Only with F  | Only with F
-        | (~30% sooner)   |            |           |              |
-
+name    |  Time               |  Memory    |  Streams  |  Can find λ  | Can find  μ
+------- | ------------------- | ---------- | --------- | ------------ | ------------
+niave   | O(λ+μ)              | O(λ+μ)     | 1         | Yes          | Yes
+gospher | O((λ+μ)lg(λ+μ))     | O(lg(λ+μ)) | 1         | Yes          | No
+floyd   | O(λ+μ)              | O(1)       | 2         | Only with F  | Only with F
+brent   | O(λ+μ)(~30% sooner) | O(1)       | 2         | Only with F  | Only with F
+        
 
 Gripes
 ------
 
 # You lied about memory consumption.
 
-I write this bit of code and my memory consumption skyrockets:
+I wrote this bit of code and my memory consumption skyrockets:
 
 ```
     a, b = itertools.tee(foo())
@@ -137,13 +136,22 @@ pass determination of values λ and μ.
 # But your code is solving the halting problem.  You can't do that! 
 
 Yes, while the halting problem is not computable for Turing machines,
-it is computable for finite state autonoma.  If your code doesn't
-implement pure function across a
+it is computable for finite state autonoma.  If your F function looks something like this:
+
+```
+    def F(x):
+      value = 0
+      while True:
+        yield value
+        value += 1
+```
+
+none of these cycle detectors will ever stop.
 
 # Your code doesn't work for this simple sequence
 
 ``` 
-    start -> 1 -> 1 -> done 
+    start -> SomeObject<1> -> SomeObject<1> -> done 
 ```
 
 It doens't work because your first `1` isn't really equal to your
